@@ -1,0 +1,24 @@
+Hỏi AI Agent Cursor:
+Đổi logo làm thế nào?
+
+1. Xác định bạn muốn đổi logo ở đâu
+Thanh menu (navbar) – chữ “wanderer” trên cùng: component Svelte trong web/src/lib/components/logo/ được dùng từ web/src/lib/components/nav_bar.svelte (logo_text.svelte, logo_text_light.svelte).
+Trang đăng nhập / đăng ký / đặt lại mật khẩu – logo hai dòng: logo_text_two_line_dark.svelte, logo_text_two_line_light.svelte (import ở các +page.svelte trong web/src/routes/login, register, auth/...).
+Chân trang – logo_text_light_with_version.svelte (trong web/src/lib/components/footer.svelte).
+Favicon (tab trình duyệt) – web/src/app.html trỏ tới favicon.png trong thư mục static của SvelteKit (thường là web/static/favicon.png).
+In trail / QR – web/src/routes/map/trail/[handle]/[id]/print/+page.svelte dùng /favicon.png và /imgs/logo_text_dark.png (file đặt dưới web/static/...).
+Email thông báo – db/templates/mail/notification.html dùng {{.AppUrl}}/imgs/logo_text_light.png → cần file tương ứng phục vụ qua URL công khai (thường cũng là static của web).
+README trên GitHub (tuỳ chọn) – ảnh trong web/static/svgs/logo_text_two_line_dark.svg.
+Docs Astro (nếu bạn build docs) – docs/astro.config.mjs (logo.light / logo.dark) và file trong docs/src/assets/ (logo_text_dark.svg, v.v.).
+2. Chuẩn bị file mới
+SVG cho UI: nên giữ cùng tỷ lệ / viewBox hoặc chỉnh width/height/viewBox trong component cho khớp layout.
+PNG cho favicon / in / email: thay đúng tên file mà code đang gọi (favicon.png, logo_text_dark.png, logo_text_light.png) hoặc đổi đường dẫn trong code cho khớp tên file mới.
+3. Sửa code / asset (thứ tự thực tế)
+Thay nội dung SVG trong các file .svelte dưới web/src/lib/components/logo/ (hoặc thay toàn bộ <svg>...</svg> bằng logo mới).
+Copy favicon và ảnh vào web/static/ (và nếu dùng thư mục con imgs/, tạo web/static/imgs/ và đặt PNG đúng tên).
+Nếu đổi URL hoặc tên file trong email/in: sửa db/templates/mail/notification.html và/hoặc print/+page.svelte cho khớp.
+(Tuỳ chọn) Cập nhật docs/src/assets/ + docs/astro.config.mjs và README.md nếu muốn branding thống nhất cả docs.
+4. Kiểm tra và triển khai
+Chạy web local, kiểm tra sáng/tối (logo light/dark), login, footer, tab favicon, in (nếu dùng), một email mẫu (nếu có).
+Nếu chạy Docker: build lại image hoặc mount volume chứa web/static tùy cách bạn deploy, rồi restart container.
+Nếu bạn nói rõ chỉ cần đổi logo trên web hay cả email + favicon + in, có thể rút gọn danh sách file cần đụng tới cho đúng trường hợp của bạn.
